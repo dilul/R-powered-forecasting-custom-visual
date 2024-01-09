@@ -1,0 +1,106 @@
+{
+  "dataRoles": [
+    {
+      "displayName": "price",
+      "kind": "Measure",
+      "name": "price"
+    },
+    {
+      "displayName": "dateOfTransfer",
+      "kind": "Grouping",
+      "name": "dateOfTransfer"
+    },
+    {
+      "displayName": "Months to Forecast",
+      "kind": "Measure",
+      "name": "forecastMonths"
+    }
+  ],
+  "objects": {
+    "circle": {
+      "properties": {
+        "circleColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+        "circleThickness": {
+          "type": {
+            "numeric": true
+          }
+        }
+      }
+    }},
+  "dataViewMappings": [
+    {
+      "conditions": [
+        { "price": { "max": 1 }, "dateOfTransfer": { "max": 1 } }
+      ],
+      "scriptResult": {
+        "dataInput": {
+          "table": {
+            "rows": {
+              "select": [
+                {
+                  "for": {
+                    "in": "price"
+                  }
+                },
+                {
+                  "for": {
+                    "in": "dateOfTransfer"
+                  }
+                },
+                { "bind": { "to": "forecastMonths" } }
+              ],
+              "dataReductionAlgorithm": {
+                "top": {}
+              }
+            }
+          }
+        },
+        "script": {
+          "scriptProviderDefault": "R",
+          "scriptOutputType": "html",
+          "source": {
+            "objectName": "rcv_script",
+            "propertyName": "source"
+          },
+          "provider": {
+            "objectName": "rcv_script",
+            "propertyName": "provider"
+          }
+        }
+      }
+    }
+  ],
+  "objects": {
+    "rcv_script": {
+      "properties": {
+        "provider": {
+          "type": {
+            "text": true
+          }
+        },
+        "source": {
+          "type": {
+            "scripting": {
+              "source": true
+            }
+          }
+        }
+      }
+    }
+  },
+  "suppressDefaultTitle": true,
+  "privileges": [
+    {
+      "name": "WebAccess",
+      "parameters": ["https://cdn.plot.ly/"]
+    }
+  ]
+}
